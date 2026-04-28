@@ -16,15 +16,20 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Give permission to mvnw
+      run: chmod +x mvnw
+
     - name: Build with Maven
       run: ./mvnw clean install
+
     - name: Run tests with Maven
       run: ./mvnw clean test
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
